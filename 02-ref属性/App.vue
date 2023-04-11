@@ -1,21 +1,23 @@
 <template>
   <div>
-    <ComponentStudent/>
-    <ComponentSchool/>
+    <ComponentSchool ref="school"/>
+    <button @click="showDom">点我输出上方的DOM元素</button>
   </div>
 </template>
 
 <script>
 
-import ComponentStudent from '@/components/ComponentStudent.vue';
 import ComponentSchool from '@/components/ComponentSchool.vue';
 
 export default {
     name: 'App',
     components: {
         ComponentSchool,
-        ComponentStudent,
     },
-    methods: {},
+    methods: {
+        showDom() {
+            console.log(this.$refs.school);
+        },
+    },
 };
 </script>
