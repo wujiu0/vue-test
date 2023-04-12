@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h2 @click="showMsg">{{ msg }}</h2>
+    <h2>{{ msg }}</h2>
+    <input type="text" v-fbind:value="msg">
+    <h2>{{ username }}</h2>
   </div>
 </template>
 
 <script>
-import {mixin} from '@/mixin';
 
 export default {
     name: 'ComponentStudent',
@@ -14,6 +15,5 @@ export default {
             msg: 'HelloWorld, student',
         };
     },
-    // mixins: [mixin],
 };
 </script>
