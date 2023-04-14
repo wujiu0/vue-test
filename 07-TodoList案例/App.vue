@@ -20,15 +20,12 @@ export default {
     components: {TodoHeader, TodoList, TodoFooter},
     data() {
         return {
-            todoList: JSON.parse(localStorage.getItem('todoList')) || [],
+            todoList: [
+                {id: '001', title: '学习', isFinished: true},
+                {id: '002', title: '吃饭', isFinished: false},
+                {id: '003', title: '睡觉', isFinished: true},
+            ],
         };
-    },
-    watch: {
-        'todoList': {
-            handler(newVal) {
-                localStorage.setItem('todoList', JSON.stringify(newVal));
-            },
-        },
     },
     methods: {
         addTodo(todoObj) {
