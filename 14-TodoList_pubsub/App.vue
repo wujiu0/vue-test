@@ -14,6 +14,7 @@
 import TodoFooter from '@/components/TodoFooter.vue';
 import TodoList from '@/components/TodoList.vue';
 import TodoHeader from '@/components/TodoHeader.vue';
+import pubsub from 'pubsub-js';
 
 export default {
     name: 'App',
@@ -23,10 +24,8 @@ export default {
             todoList: JSON.parse(localStorage.getItem('todoList')) || [],
         };
     },
-
     watch: {
         'todoList': {
-            deep: true,
             handler(newVal) {
                 localStorage.setItem('todoList', JSON.stringify(newVal));
             },
@@ -37,7 +36,7 @@ export default {
             if (todoObj)
                 this.todoList.unshift(todoObj);
         },
-        toggleTodo(id) {
+        toggleTodo(_, id) {
             this.todoList.forEach((todo) => {
                 if (todo.id === id) todo.isFinished = !todo.isFinished;
             });
@@ -47,16 +46,9 @@ export default {
                 todo.isFinished = value;
             });
         },
-        deleteTodo(id) {
+        deleteTodo(_, id) {
             this.todoList = this.todoList.filter((todo) => {
                 return todo.id !== id;
-            });
-        },
-        editTodo(id, val) {
-            this.todoList.forEach((todo) => {
-                if (todo.id === id) {
-                    todo.title = val;
-                }
             });
         },
         clearTodoList() {
@@ -66,10 +58,8 @@ export default {
         },
     },
     mounted() {
-        this.$bus.$on('toggleTodo', this.toggleTodo);
-        this.$bus.$on('deleteTodo', this.deleteTodo);
-        this.$bus.$on('editTodo', this.editTodo);
-
+        pubsub.subscribe('toggleTodo', this.toggleTodo);
+        pubsub.subscribe('deleteTodo', this.deleteTodo);
     },
 };
 </script>
@@ -102,18 +92,6 @@ body {
 .btn-danger:hover {
     color: #fff;
     background-color: #bd362f;
-}
-
-.btn-edit {
-    color: #fff;
-    background-color: #20aff1;
-    border: 1px solid #2f7dbd;
-    margin-right: 5px;
-}
-
-.btn-edit:hover {
-    color: #fff;
-    background-color: #0095ff;
 }
 
 .btn:focus {

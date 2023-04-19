@@ -1,17 +1,27 @@
 <template>
   <li>
     <label>
-      <input type="checkbox" :checked="todo.isFinished" @change="toggleTodo(todo.id)"/>
+      <input type="checkbox" :checked="todo.isFinished" @change="toggleTodo"/>
       <span>{{ todo.title }}</span>
     </label>
-    <button class="btn btn-danger" @click="deleteTodo(todo.id)">删除</button>
+    <button class="btn btn-danger" @click="deleteTodo">删除</button>
   </li>
 </template>
 
 <script>
+import pubsub from 'pubsub-js';
+
 export default {
     name: 'TodoItem',
-    props: ['todo', 'toggleTodo', 'deleteTodo'],
+    props: ['todo'],
+    methods: {
+        toggleTodo() {
+            pubsub.publish('toggleTodo', this.todo.id);
+        },
+        deleteTodo() {
+            pubsub.publish('deleteTodo', this.todo.id);
+        },
+    },
 };
 </script>
 

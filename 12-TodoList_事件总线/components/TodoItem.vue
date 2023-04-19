@@ -2,18 +2,9 @@
   <li>
     <label>
       <input type="checkbox" :checked="todo.isFinished" @change="toggleTodo"/>
-      <input
-              type="text"
-              ref="inputTitle"
-              v-show="todo.isEdit"
-              @blur="handleBlur($event)"
-              @keydown.enter="$refs.inputTitle.blur()"
-              :value="todo.title"
-      >
-      <span v-show="!todo.isEdit">{{ todo.title }}</span>
+      <span>{{ todo.title }}</span>
     </label>
     <button class="btn btn-danger" @click="deleteTodo">删除</button>
-    <button class="btn btn-edit" @click="handleEdit">编辑</button>
   </li>
 </template>
 
@@ -28,25 +19,6 @@ export default {
         deleteTodo() {
             this.$bus.$emit('deleteTodo', this.todo.id);
         },
-        handleEdit() {
-            if (!this.todo.hasOwnProperty('isEdit')) {
-                this.$set(this.todo, 'isEdit', true);
-            } else {
-                this.todo.isEdit = true;
-            }
-            this.$nextTick(() => {
-                    this.$refs.inputTitle.focus();
-                },
-            );
-        },
-        handleBlur(e) {
-            this.todo.isEdit = false;
-            if (!e.target.value.trim()) {
-                return alert('输入不能为空');
-            }
-            this.$bus.$emit('editTodo', this.todo.id, e.target.value);
-        },
-
     },
 };
 </script>

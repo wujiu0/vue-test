@@ -26,7 +26,6 @@ export default {
 
     watch: {
         'todoList': {
-            deep: true,
             handler(newVal) {
                 localStorage.setItem('todoList', JSON.stringify(newVal));
             },
@@ -52,13 +51,6 @@ export default {
                 return todo.id !== id;
             });
         },
-        editTodo(id, val) {
-            this.todoList.forEach((todo) => {
-                if (todo.id === id) {
-                    todo.title = val;
-                }
-            });
-        },
         clearTodoList() {
             this.todoList = this.todoList.filter((todo) => {
                 return !todo.isFinished;
@@ -68,8 +60,6 @@ export default {
     mounted() {
         this.$bus.$on('toggleTodo', this.toggleTodo);
         this.$bus.$on('deleteTodo', this.deleteTodo);
-        this.$bus.$on('editTodo', this.editTodo);
-
     },
 };
 </script>
@@ -102,18 +92,6 @@ body {
 .btn-danger:hover {
     color: #fff;
     background-color: #bd362f;
-}
-
-.btn-edit {
-    color: #fff;
-    background-color: #20aff1;
-    border: 1px solid #2f7dbd;
-    margin-right: 5px;
-}
-
-.btn-edit:hover {
-    color: #fff;
-    background-color: #0095ff;
 }
 
 .btn:focus {
