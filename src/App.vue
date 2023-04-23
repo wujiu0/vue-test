@@ -1,27 +1,35 @@
 <template>
-  <div>
-    <button @click="getStudentList">获取学生信息</button>
-    <button @click="getCarList">获取汽车信息</button>
+  <div class="container">
+    <Category title="游戏">
+      <ul slot="center" slot-scope="data">
+        <li v-for="(game, index) in data.games" :key="index">
+          {{ game }}
+        </li>
+      </ul>
+    </Category>
+    <Category title="游戏">
+      <ol slot="center" slot-scope="{games}">
+        <li v-for="(game, index) in games" :key="index">
+          {{ game }}
+        </li>
+      </ol>
+    </Category>
   </div>
-</template>
 
+</template>
 <script>
-import axios from 'axios';
+
+import Category from '@/components/Category.vue';
 
 export default {
-    methods: {
-        getStudentList() {
-            axios.get('http://localhost:8080/students')
-                .then((response) => {
-                    console.log(response.data);
-                });
-        },
-        getCarList() {
-            axios.get('http://localhost:8080/demo/cars')
-                .then((response) => {
-                    console.log(response.data);
-                });
-        },
-    },
+    components: {Category},
+
 };
 </script>
+
+<style>
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+</style>
